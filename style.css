@@ -10,12 +10,17 @@
     font-family: 'Roboto', sans-serif;
 }
 
+html {
+    scroll-behavior: smooth; /* So when you click on a link in the page it goes to it smoothly */
+}
+
 li {
     list-style-type: none;
 }
 
 section {
     background-color: rgb(245, 245, 245);
+    transition: all 300ms ease;
 }
 
 .title {
@@ -52,6 +57,7 @@ a {
 
 .click {
     transition: all 300ms ease;
+    cursor: pointer;
 }
 
 .click:hover {
@@ -80,7 +86,8 @@ button {
     transition: all 300ms ease;
 }
 
-.link__hover-effect--white:after {
+.link__hover-effect--white:after, 
+.dark-theme .link__hover-effect--black:after {
     background-color: white;
 }
 
@@ -91,6 +98,75 @@ button {
 .link__hover-effect:hover:after {
     left: 0;
     width: 100%;
+}
+
+input, textarea {
+    width: 100%;
+    background-color: #242424;
+    color: white;
+    outline: none;
+    border: 1px solid #c0c4cc;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    height: 40px;
+    transition: all 300ms ease;
+}
+
+textarea {
+    resize: vertical;
+    height: 100px;
+    margin-top: 8px;
+}
+
+input:hover, textarea:hover {
+    border-color: #dcdfe6;
+}
+
+input:focus, textarea:focus {
+    border-color: #f06449;
+}
+
+label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+nav, .scroll, header {
+    opacity: 1;
+    visibility: visible;
+    transition: all 600ms 600ms;
+}
+
+.modal--open nav, .modal--open .scroll, .modal--open header {
+    opacity: 0;
+    visibility: visible;
+    transition: all 400ms;
+}
+
+.dark-theme .title, 
+.dark-theme .section__title, 
+.dark-theme .section__sub-title, 
+.dark-theme .fa-circle-half-stroke,
+.dark-theme .nav__link--anchor, 
+.dark-theme .header__para{
+    color: white;
+}
+
+.dark-theme section{
+    background-color: #242424;
+}
+
+.dark-theme #personal-logo, .dark-theme .mail__btn {
+    filter: invert();
+}
+
+.dark-theme .scroll__icon {
+    border-color: white;
+}
+
+.dark-theme .scroll__icon:after {
+    background-color: white;
 }
 
 
@@ -180,9 +256,11 @@ nav {
     border: none;
     background-color: #242424;
     color: white;
-    position: absolute;
+    position: fixed;
     bottom: 32px;
     right: 40px;
+    z-index: 100;
+    box-shadow: 0 12px 30px 0 rgb(0,0,0,0.3);
 }
 
 .scroll {
@@ -231,27 +309,43 @@ nav {
     width: 90%;
     max-width: 1100px;
     height: 700px;
-    box-shadow: 0 20px 80px 0 rgb(0,0,0,0.55);
     border-radius: 20px;
     overflow: hidden;
     display: flex;
+    visibility: hidden;
+    z-index: -1;
+    transition: visibility 1s, z-index 1s, box-shadow 0.5s ease;
+}
+
+.modal--open .modal {
+    z-index: 60;
+    box-shadow: 0 20px 80px 0 rgb(0,0,0,0.55);
+    visibility: visible;
 }
 
 .modal__half {
     width: 50%;
     padding: 40px 72px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    transition: all 300ms ease;
+}
+
+.modal--open .modal__about, .modal--open .modal__contact {
+    transform: translateX(0%);
 }
 
 .modal__about {
     background-color: rgb(245,245,245);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    transform: translateX(-110%);
 }
 
 .modal__contact {
     background-color: #242424;
     color: white;
+    transform: translateX(110%);
 }
 
 .modal__language:hover .language__name{
@@ -294,6 +388,7 @@ nav {
 
 .modal__sub-title {
     margin: 12px 0 24px 0;
+    font-size: 14px;
 }
 
 .modal__para {
@@ -301,10 +396,83 @@ nav {
     line-height: 1.75;
 }
 
+.form__item {
+    margin-bottom: 20px;
+}
 
+.form__submit {
+    background-color: #f06449;
+    border: 2px solid #f06449;
+    color: white;
+    font-weight: 700;
+    width: 100%;
+    max-width: 200px;
+    padding: 12px 24px;
+    font-size: 20px;
+    transition: all 300ms ease;
+}
 
+.form__submit:hover {
+    border-color: white;
+    background-color: transparent;
+}
 
+.form__submit:active {
+    border-color: #f06449;
+    color: #f06449;
+}
 
+.modal__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: -1;
+}
+
+.modal__overlay--loading {
+    background-color: #242424;
+    font-size: 80px;
+}
+
+.modal__overlay--success {
+    background-color: #4bb543;
+    font-size: 40px;
+    font-weight: 700;
+    text-align: center;
+    padding: 28px;
+}
+
+.modal__overlay--visible {
+    z-index: 1;
+    display: flex;
+}
+
+.fa-spinner {
+    animation: spinner 750ms infinite;
+}
+
+@keyframes spinner {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.modal__exit {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    color: white;
+    font-size: 36px;
+    z-index: 100;
+}
 
 
 /* ----- PROJECTS ----- */
@@ -391,6 +559,7 @@ footer {
     background-color: #242424;
     display: flex;
     padding: 6% 0;
+    position: relative;
 }
 
 .footer__row {
@@ -418,4 +587,110 @@ footer {
 
 .footer__copyright {
     margin-top: 16px;
+}
+
+
+/* ----- SHAPES ----- */
+
+.shape {
+    position: fixed;
+
+}
+
+.shape--0 {
+    top: 15vh;
+    left: 5vw;
+}
+
+.shape--1 {
+    top: 15vh;
+    left: 50vw;
+}
+
+.shape--2 {
+    top: 15vh;
+    left: 80vw;
+}
+
+.shape--3 {
+    top: 50vh;
+    left: 5vw;
+}
+
+.shape--4 {
+    top: 50vh;
+    left: 50vw;
+}
+
+.shape--5 {
+    top: 50vh;
+    left: 80vw;
+}
+
+.shape--6 {
+    top: 80vh;
+    left: 5vw;
+}
+
+.shape--7 {
+    top: 80vh;
+    left: 50vw;
+}
+
+.shape--8 {
+    top: 80vh;
+    left: 80vw;
+}
+
+
+/* ----- RESPONSIVE ----- */
+
+/* Small phones, tablets, large smart phones*/
+@media (max-width: 768px) {
+    .title {
+        font-size: 80px;
+    }
+    .header__para {
+        font-size: 20px;
+    }
+    .modal {
+        top: 0;
+        left: 0;
+        transform: none;
+        height: auto;
+        width: 100%;
+        flex-direction: column-reverse;
+        border-radius: 0;
+    }
+    .modal__half {
+        width: 100%;
+    }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+    .title {
+        font-size: 52px;
+    }
+    .header__para {
+        font-size: 18px;
+    }
+    .nav__link:first-child {
+        display: none;
+    }
+    .project__description--para {
+        display: none;
+    }
+    .project__description {
+        left: 0;
+        padding: 0;
+        width: 100%;
+        text-align: center;
+    }
+    .project__description--sub-title {
+        margin-bottom: 8px;
+    }
+    .modal__half {
+        padding: 40px;
+    }
 }
